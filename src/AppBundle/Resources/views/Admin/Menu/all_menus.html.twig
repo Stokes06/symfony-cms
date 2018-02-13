@@ -1,0 +1,34 @@
+{% extends '@App/Admin/layout.html.twig' %}
+{% block title %}Gestion des menus{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-8 col-xd-offset-2">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Menu</th>
+                            <th>Parent</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for menu in menus %}
+                        <tr>
+                            <td>{{ menu.title }}</td>
+                            <td>{{menu.parent is not null ? menu.parent.title }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{{ path('update_menu', {"id":menu.id}) }}">Modifier</a>
+                                    <a href="{{ path('delete_menu', {"id":menu.id}) }}">Supprimer</a>
+                                </div>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

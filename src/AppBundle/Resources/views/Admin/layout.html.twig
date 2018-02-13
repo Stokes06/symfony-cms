@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('bundles/app/bootstrap/css/bootstrap.css') }}">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+{% block navbar %}{{ include('@App/Admin/navbar.html.twig') }}{% endblock %}
+<div class="container">
+    <div class="row">
+        {% block pageheader %}{% endblock %}
+        <div class="col-sm-2">
+            {{ include('@App/Admin/panel-action.html.twig') }}
+        </div>
+        <div class="col-sm-10">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% block javascripts %}
+    <script src="{{ asset('bundles/app/jquery/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/bootstrap/js/bootstrap.js') }}"></script>
+{% endblock %}
+</body>
+</html>

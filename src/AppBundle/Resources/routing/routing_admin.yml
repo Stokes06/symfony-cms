@@ -1,0 +1,37 @@
+handle_articles:
+    path: /admin/articles
+    defaults: {_controller: AppBundle:Article:handleArticles}
+new_article:
+   path: /article/new
+   defaults: {_controller: AppBundle:Article:newArticle}
+one_article:
+     path: /article/{menu}/{id}{slug}
+     defaults: {_controller: AppBundle:Article:getArticle}
+     requirements:
+        id : \d+
+delete_article:
+    path: /admin/deleteArticle/{id}
+    defaults: {_controller: AppBundle:Article:deleteArticle}
+    requirements:
+            id : \d+
+update_article:
+    path: /admin/updateArticle/{id}
+    defaults: {_controller: AppBundle:Article:newArticle}
+    requirements:
+            id : \d+
+all_menus:
+    path: /admin/menus
+    defaults: {_controller: AppBundle:Menu:getAllMenus}
+new_menu:
+    path: /admin/menus/create
+    defaults: {_controller: AppBundle:Menu:createMenu}
+delete_menu:
+    path: /admin/menus/delete/{id}
+    defaults: {_controller: AppBundle:Menu:deleteMenu}
+    requirements:
+        id: \d+
+update_menu:
+    path: /admin/menus/update/{id}
+    defaults: {_controller: AppBundle:Menu:createMenu}
+    requirements:
+            id: \d+

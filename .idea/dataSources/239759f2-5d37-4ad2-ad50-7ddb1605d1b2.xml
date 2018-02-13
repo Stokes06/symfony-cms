@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="le_monde@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.4">
+    <root id="1"/>
+    <schema id="2" parent="1" name="le_monde">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="animaux"/>
+    <schema id="4" parent="1" name="autoroute"/>
+    <schema id="5" parent="1" name="avis"/>
+    <schema id="6" parent="1" name="cadeaux"/>
+    <schema id="7" parent="1" name="calendar"/>
+    <schema id="8" parent="1" name="cave"/>
+    <schema id="9" parent="1" name="collect_manager"/>
+    <schema id="10" parent="1" name="cours_jdbc"/>
+    <schema id="11" parent="1" name="db_cinema"/>
+    <schema id="12" parent="1" name="db_command"/>
+    <schema id="13" parent="1" name="db_connexion"/>
+    <schema id="14" parent="1" name="db_couleurs"/>
+    <schema id="15" parent="1" name="db_debug"/>
+    <schema id="16" parent="1" name="db_encheres"/>
+    <schema id="17" parent="1" name="db_films"/>
+    <schema id="18" parent="1" name="db_fleurs"/>
+    <schema id="19" parent="1" name="db_ideanoval"/>
+    <schema id="20" parent="1" name="db_location"/>
+    <schema id="21" parent="1" name="db_stagiaires"/>
+    <schema id="22" parent="1" name="db_trainee"/>
+    <schema id="23" parent="1" name="devops"/>
+    <schema id="24" parent="1" name="disney"/>
+    <schema id="25" parent="1" name="enqueteshibernate"/>
+    <schema id="26" parent="1" name="epicerie"/>
+    <schema id="27" parent="1" name="examen_blanc_cook"/>
+    <schema id="28" parent="1" name="examen_journal"/>
+    <schema id="29" parent="1" name="examjunitg10"/>
+    <schema id="30" parent="1" name="fenetrier"/>
+    <schema id="31" parent="1" name="fruits"/>
+    <schema id="32" parent="1" name="gameofthrones"/>
+    <schema id="33" parent="1" name="garage"/>
+    <schema id="34" parent="1" name="gestion_clients"/>
+    <schema id="35" parent="1" name="hb_exam_php"/>
+    <schema id="36" parent="1" name="hb_exam_php_3"/>
+    <schema id="37" parent="1" name="information_schema"/>
+    <schema id="38" parent="1" name="mediatheque"/>
+    <schema id="39" parent="1" name="mysql"/>
+    <schema id="40" parent="1" name="performance_schema"/>
+    <schema id="41" parent="1" name="prets"/>
+    <schema id="42" parent="1" name="produits"/>
+    <schema id="43" parent="1" name="specificationsdrafting"/>
+    <schema id="44" parent="1" name="sys"/>
+    <schema id="45" parent="1" name="test_hibernate"/>
+    <schema id="46" parent="1" name="vais"/>
+    <table id="47" parent="2" name="article"/>
+    <table id="48" parent="2" name="article_article"/>
+    <table id="49" parent="2" name="fos_user"/>
+    <table id="50" parent="2" name="menu"/>
+    <column id="51" parent="47" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="52" parent="47" name="menu_id">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="53" parent="47" name="title">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="54" parent="47" name="content">
+      <Position>4</Position>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="55" parent="47" name="published">
+      <Position>5</Position>
+      <DataType>tinyint(1)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="56" parent="47" name="published_at">
+      <Position>6</Position>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="57" parent="47" name="image">
+      <Position>7</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <index id="58" parent="47" name="IDX_23A0E66CCD7E912">
+      <ColNames>menu_id</ColNames>
+    </index>
+    <key id="59" parent="47" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="60" parent="47" name="FK_23A0E66CCD7E912">
+      <ColNames>menu_id</ColNames>
+      <RefSchemaName>le_monde</RefSchemaName>
+      <RefTableName>menu</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="61" parent="48" name="article_source">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="62" parent="48" name="article_target">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="63" parent="48" name="IDX_EFE84AD12CA8B87C">
+      <ColNames>article_target</ColNames>
+    </index>
+    <index id="64" parent="48" name="IDX_EFE84AD1354DE8F3">
+      <ColNames>article_source</ColNames>
+    </index>
+    <key id="65" parent="48" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>article_source
+article_target</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="66" parent="48" name="FK_EFE84AD1354DE8F3">
+      <ColNames>article_source</ColNames>
+      <RefSchemaName>le_monde</RefSchemaName>
+      <RefTableName>article</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="67" parent="48" name="FK_EFE84AD12CA8B87C">
+      <ColNames>article_target</ColNames>
+      <RefSchemaName>le_monde</RefSchemaName>
+      <RefTableName>article</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="68" parent="49" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="69" parent="49" name="username">
+      <Position>2</Position>
+      <DataType>varchar(180)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="70" parent="49" name="username_canonical">
+      <Position>3</Position>
+      <DataType>varchar(180)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="71" parent="49" name="email">
+      <Position>4</Position>
+      <DataType>varchar(180)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="72" parent="49" name="email_canonical">
+      <Position>5</Position>
+      <DataType>varchar(180)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="73" parent="49" name="enabled">
+      <Position>6</Position>
+      <DataType>tinyint(1)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="74" parent="49" name="salt">
+      <Position>7</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="75" parent="49" name="password">
+      <Position>8</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="76" parent="49" name="last_login">
+      <Position>9</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="77" parent="49" name="confirmation_token">
+      <Position>10</Position>
+      <DataType>varchar(180)|0</DataType>
+    </column>
+    <column id="78" parent="49" name="password_requested_at">
+      <Position>11</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="79" parent="49" name="roles">
+      <Position>12</Position>
+      <Comment>(DC2Type:array)</Comment>
+      <DataType>longtext|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="80" parent="49" name="UNIQ_957A647992FC23A8">
+      <ColNames>username_canonical</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="81" parent="49" name="UNIQ_957A6479A0D96FBF">
+      <ColNames>email_canonical</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="82" parent="49" name="UNIQ_957A6479C05FB297">
+      <ColNames>confirmation_token</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="83" parent="49" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="84" parent="49" name="UNIQ_957A647992FC23A8">
+      <ColNames>username_canonical</ColNames>
+      <UnderlyingIndexName>UNIQ_957A647992FC23A8</UnderlyingIndexName>
+    </key>
+    <key id="85" parent="49" name="UNIQ_957A6479A0D96FBF">
+      <ColNames>email_canonical</ColNames>
+      <UnderlyingIndexName>UNIQ_957A6479A0D96FBF</UnderlyingIndexName>
+    </key>
+    <key id="86" parent="49" name="UNIQ_957A6479C05FB297">
+      <ColNames>confirmation_token</ColNames>
+      <UnderlyingIndexName>UNIQ_957A6479C05FB297</UnderlyingIndexName>
+    </key>
+    <column id="87" parent="50" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="88" parent="50" name="parent_id">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="89" parent="50" name="title">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="90" parent="50" name="IDX_7D053A93727ACA70">
+      <ColNames>parent_id</ColNames>
+    </index>
+    <key id="91" parent="50" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="92" parent="50" name="FK_7D053A93727ACA70">
+      <ColNames>parent_id</ColNames>
+      <RefSchemaName>le_monde</RefSchemaName>
+      <RefTableName>menu</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>

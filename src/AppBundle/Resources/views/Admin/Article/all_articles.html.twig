@@ -1,0 +1,51 @@
+{% extends '@App/Admin/layout.html.twig' %}
+{% block title %}Tous les Articles {% endblock %}
+{% block pageheader %}
+    <div class="page-header text-center"><h1>Liste des articles</h1></div> {% endblock %}
+{% block body %}
+            <div class="col-md-12">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                       <div class="alert alert-success">
+                           {{ message }}
+                       </div>
+                    {% endfor %}
+                {% endfor %}
+                <table class="table table-striped">
+                    <thead style="font-size: 2rem">
+                    <tr>
+                        <td></td>
+                        <td>Titre</td>
+                        <td>Categorie</td>
+                        <td>Publié</td>
+                        <td>état publication</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for article in articles %}
+                        <tr>
+                            <td>
+                                <div class="btn-group">
+                                    <a title="modifier" href="{{ path('update_article', {id: article.id}) }}">
+                                        <span class="glyphicon glyphicon-wrench"></span>
+                                    </a>
+                                    <a title="supprimer" href="{{ path('delete_article',{id: article.id }) }}">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="{{ path('one_article',{id:article.id,menu:article.menu.title, slug: '_'~article.title }) }}">{{ article.title }}</a>
+                            </td>
+                            <td>{{ article.menu.title }}</td>
+                            <td>{{ article.publishedAt|dateDiff}}</td>
+                            <td>{{ article.published ? "publié" : "non publié" }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+
+{% endblock %}

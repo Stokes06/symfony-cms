@@ -1,0 +1,26 @@
+{% extends '@App/Admin/layout.html.twig' %}
+{% block title %}Ajout d'un article {% endblock %}
+{% block body %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            {% form_theme form 'bootstrap_3_layout.html.twig' %}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input type="submit" value="enregistrer" class="btn btn-primary">
+                {% if article.image is not null %}
+                    <div class="row">
+                    <div class="col-xs-2">
+                        image pré existente :
+                    </div>
+                    <div class="col-xs-4">
+                        <img class="img-responsive" src="{{image_dir ~ article.image }}" alt="aucune image pré-existente">
+                    </div>
+
+            </div>
+            {% endif %}
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
