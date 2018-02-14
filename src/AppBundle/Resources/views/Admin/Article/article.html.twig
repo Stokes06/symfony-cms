@@ -7,7 +7,7 @@
             <h1 class="text-center">{{ article.title }}</h1>
             <div class="row">
                 <div class="col-xs-4">
-                    <img class="img-responsive" src="{{image_dir ~ article.image }}" alt="aucune photo disponible">
+                    <img class="img-responsive" src="{{ image_dir ~ article.image }}" alt="aucune photo disponible">
                     <div>
                         {{ 'publié le ' ~ article.publishedAt.format("d-m-Y")~' à '~ article.publishedAt.format("h:i") }}
                     </div>
@@ -16,19 +16,29 @@
                     {{ article.content|markdown }}
                 </div>
             </div>
+            <div class="row">
+                <div>
+                    <ul class="nav nav-pills">
+                        <li><a href="{{ path('update_article',{id: article.id}) }}">
+                                Modifier</a></li>
+                        <li><a href="{{ path('delete_article', {id: article.id}) }}">
+                                Supprimer</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     {% if article.articles is not empty %}
         <div class="row">
-            <h4 class="text-center">Articles associés</h4>
-            {% for articleassocie in article.articles %}
-                <div class="row">
-                    <div style="margin-bottom: 20px;" class="col-xs-6 col-xs-offset-3">
-                        <a href="{{ path('one_article', {id:articleassocie.id,menu:articleassocie.menu.title|nice_url, slug: '_'~articleassocie.title|nice_url}) }}">
-                            {{ articleassocie.title }}
-                        </a>
-                    </div>
+        <h4 class="text-center">Articles associés</h4>
+        {% for articleassocie in article.articles %}
+            <div class="row">
+                <div style="margin-bottom: 20px;" class="col-xs-6 col-xs-offset-3">
+                    <a href="{{ path('one_article', {id:articleassocie.id,menu:articleassocie.menu.title|nice_url, slug: '_'~articleassocie.title|nice_url}) }}">
+                        {{ articleassocie.title }}
+                    </a>
                 </div>
-            {% endfor %}
+            </div>
+        {% endfor %}
     {% endif %}
 {% endblock %}

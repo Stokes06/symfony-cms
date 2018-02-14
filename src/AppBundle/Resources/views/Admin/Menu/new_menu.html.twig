@@ -1,5 +1,5 @@
 {% extends '@App/Admin/layout.html.twig' %}
-{% block title %}Ajout d'un menu {% endblock %}
+{% block title %}{{ menu.id is not null ? 'Modifier le menu' : 'Créer un menu'}} {% endblock %}
 {% block body %}
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1">

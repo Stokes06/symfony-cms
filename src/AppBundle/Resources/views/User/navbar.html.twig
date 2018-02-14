@@ -3,13 +3,11 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="/">Le Monde</a>
         </div>
-        {% if menus is defined %}
             <ul class="nav navbar-nav">
-                {% for menu in menus %}
+                {% for menu in getBiggestMenus() %}
                     <li class="{{ isActive(path('articles_by_menu',{id: menu.id, title: menu.title})) }}"><a href="{{ path('articles_by_menu',{id: menu.id, title: menu.title}) }}">{{ menu.title }}</a></li>
                 {% endfor %}
             </ul>
-        {% endif %}
         <ul class="nav navbar-nav navbar-right">
             {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                 <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Se déconnecter</a></li>

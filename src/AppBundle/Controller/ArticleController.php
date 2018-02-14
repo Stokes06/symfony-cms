@@ -14,9 +14,7 @@ use AppBundle\Form\ArticleType;
 use AppBundle\Service\ArticleService;
 use AppBundle\Service\MenuService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,11 +64,9 @@ class ArticleController extends Controller
     public function getAllArticlesAction(Session $session, MenuService $menuService, ArticleService $articleService)
     {
         $lastArticleSeen = $session->get("last_article");
-        $menus = $menuService->getBiggestMenu();
-        /*   $loger =  $this->container->get('logger');
-           $loger->info("look, i want every articles !");*/
+
         $articles = $articleService->getPublishedArticles();
-        return $this->render('@App/User/all_articles.html.twig', ["articles" => $articles, "lastArticleSeen" => $lastArticleSeen, "menus"=>$menus]);
+        return $this->render('@App/User/all_articles.html.twig', ["articles" => $articles, "lastArticleSeen" => $lastArticleSeen]);
     }
 
     /**
@@ -83,7 +79,6 @@ class ArticleController extends Controller
     {
         /** @var Article $article */
         $article = $articleService->getById($id);
-        $menus = $menuService->getBiggestMenu();
         if($this->isGranted("ROLE_EDITOR"))
             return $this->render('@App/Admin/Article/article.html.twig', ["article" => $article]);
 
@@ -91,7 +86,7 @@ class ArticleController extends Controller
             return $this->render("@App/error404.html.twig");
         $session->set("last_article", $article);
 
-        return $this->render('@App/User/article.html.twig', ["article" => $article, "menus"=>$menus]);
+        return $this->render('@App/User/article.html.twig', ["article" => $article]);
     }
 
     /**
@@ -102,11 +97,11 @@ class ArticleController extends Controller
      */
     public function getArticlesByMenuAction(MenuService $menuService, ArticleService $articleService, $id){
         $menu = $menuService->getById($id);
-        $menus = $menuService->getBiggestMenu();
+
         $menuChildren = $menuService->getMenuChildren($id);
         $articles = $articleService->getPublishedArticlesByMenuId($id);
 
-        return $this->render('@App/User/articlesByMenu.html.twig', ["menu"=>$menu, "menus"=>$menus, "menuChildren"=>$menuChildren, "articles"=>$articles]);
+        return $this->render('@App/User/articlesByMenu.html.twig', ["menu"=>$menu, "menuChildren"=>$menuChildren, "articles"=>$articles]);
 
     }
 

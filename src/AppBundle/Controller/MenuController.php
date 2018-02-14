@@ -30,7 +30,7 @@ class MenuController extends Controller
                return $this->redirectToRoute("all_menus");
             }
         }
-    return $this->render("@App/Admin/Menu/new_menu.html.twig", ['form' => $form->createView()]);
+    return $this->render("@App/Admin/Menu/new_menu.html.twig", ['form' => $form->createView(), 'menu'=>$menu]);
     }
 
     public function deleteMenuAction(MenuService $menuService, Menu $id){

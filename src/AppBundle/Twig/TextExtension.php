@@ -1,15 +1,22 @@
 <?php
 namespace AppBundle\Twig;
 use AppBundle\Entity\Menu;
+use AppBundle\Service\MenuService;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
 
 class TextExtension extends \Twig_Extension{
 
     protected $container;
-    public function __construct(ContainerInterface $container)
+    /**
+     * @var MenuService
+     */
+    private $menuService;
+
+    public function __construct(ContainerInterface $container, MenuService $menuService)
     {
         $this->container = $container;
+        $this->menuService = $menuService;
     }
 
     public function getFilters()
@@ -17,6 +24,7 @@ class TextExtension extends \Twig_Extension{
        return array(
            new \Twig_SimpleFilter("cut", [$this, 'cutFilter']),
            new \Twig_SimpleFilter("nice_url", [$this, 'niceUrlFilter']),
+           new \Twig_SimpleFilter("bigMenu", [$this, 'bigMenuFilter'],array('is_safe' => array('html'))),
            new \Twig_SimpleFilter("published_label", [$this, 'publishedLabelFilter'], array('is_safe' => array('html'))),
            );
     }
@@ -25,7 +33,8 @@ class TextExtension extends \Twig_Extension{
         $functionAriane = new \Twig_SimpleFunction('filAriane', [$this, 'generateFilArianeFunction'], array('is_safe' => array('html')));
         return array(
             new \Twig_SimpleFunction('isActive', [$this, 'isActiveFunction']),
-            $functionAriane
+            $functionAriane,
+            new \Twig_SimpleFunction('getBiggestMenus', [$this->menuService, 'getBiggestMenu'])
         );
     }
 
@@ -54,5 +63,8 @@ class TextExtension extends \Twig_Extension{
         if(!$menu) return $html;
         $add = '<li><a href="'.$this->container->get('router')->generate('articles_by_menu',['id'=>$menu->getId(), 'title'=>$menu->getTitle()]).'">'.$menu->getTitle().'</a></li>';
         return $this->generateHtmlAriane($menu->getParent(), $add.$html);
+    }
+    public function bigMenuFilter(Menu $menu){
+        return $menu->getParent()!=null ? $menu->getTitle() : '<strong>'.$menu->getTitle().'</strong>';
     }
 }

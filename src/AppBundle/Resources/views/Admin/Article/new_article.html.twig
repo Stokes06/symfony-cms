@@ -1,5 +1,5 @@
 {% extends '@App/Admin/layout.html.twig' %}
-{% block title %}Ajout d'un article {% endblock %}
+{% block title %}{{ article.id is not null ? 'Modifier l\'article' : 'Créer un article'}} {% endblock %}
 {% block body %}
 
     <div class="row">
