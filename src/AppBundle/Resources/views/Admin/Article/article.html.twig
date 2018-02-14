@@ -24,7 +24,7 @@
             {% for articleassocie in article.articles %}
                 <div class="row">
                     <div style="margin-bottom: 20px;" class="col-xs-6 col-xs-offset-3">
-                        <a href="{{ path('one_article', {id:articleassocie.id,menu:articleassocie.menu.title, slug: '_'~articleassocie.title}) }}">
+                        <a href="{{ path('one_article', {id:articleassocie.id,menu:articleassocie.menu.title|nice_url, slug: '_'~articleassocie.title|nice_url}) }}">
                             {{ articleassocie.title }}
                         </a>
                     </div>

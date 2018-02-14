@@ -2,13 +2,8 @@ handle_articles:
     path: /admin/articles
     defaults: {_controller: AppBundle:Article:handleArticles}
 new_article:
-   path: /article/new
+   path: /admin/article/create
    defaults: {_controller: AppBundle:Article:newArticle}
-one_article:
-     path: /article/{menu}/{id}{slug}
-     defaults: {_controller: AppBundle:Article:getArticle}
-     requirements:
-        id : \d+
 delete_article:
     path: /admin/deleteArticle/{id}
     defaults: {_controller: AppBundle:Article:deleteArticle}
@@ -35,3 +30,9 @@ update_menu:
     defaults: {_controller: AppBundle:Menu:createMenu}
     requirements:
             id: \d+
+publish_article:
+    path: /admin/article/publish/{id}/{action}
+    defaults: {_controller: AppBundle:Article:publishArticle}
+    requirements:
+        id: \d+
+        action: \d

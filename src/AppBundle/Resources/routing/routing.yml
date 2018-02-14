@@ -8,3 +8,13 @@ admin_routing:
 all_articles:
     path: /articles
     defaults: {_controller: AppBundle:Article:getAllArticles}
+one_article:
+     path: /article/{menu}/{id}{slug}
+     defaults: {_controller: AppBundle:Article:getArticle}
+     requirements:
+        id : \d+
+articles_by_menu:
+      path: /articles/{id}_{title}
+      defaults: {_controller: AppBundle:Article:getArticlesByMenu}
+      requirements:
+              id : \d+

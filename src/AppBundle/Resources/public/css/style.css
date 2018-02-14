@@ -1,0 +1,29 @@
+body, html{
+    margin: 0;
+    padding: 0;
+}
+.navbar{
+    border-radius: 0;
+}
+
+.navbar-default .navbar-brand, .navbar-default .navbar-brand a:hover {
+    color: white;
+}
+.navbar-default .navbar-nav > li > a{
+    color: white;
+}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus{
+color : white;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus{
+    color: white;
+    background-color: black;
+}
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus{
+    color: white;
+    background-color: black;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+    color: white;
+    background-color: black;
+}

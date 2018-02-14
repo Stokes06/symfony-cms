@@ -35,11 +35,20 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="{{ path('one_article',{id:article.id,menu:article.menu.title, slug: '_'~article.title }) }}">{{ article.title }}</a>
+                                <a href="{{ path('one_article',{id:article.id,menu:article.menu.title|nice_url, slug: '_'~article.title|nice_url }) }}">{{ article.title }}</a>
                             </td>
                             <td>{{ article.menu.title }}</td>
                             <td>{{ article.publishedAt|dateDiff}}</td>
-                            <td>{{ article.published ? "publié" : "non publié" }}</td>
+                            <td>{{ article.published | published_label }}
+                                 <div class="btn-group">
+                                {% if not article.published %}
+                                    <a href="{{ path('publish_article', {id: article.id, action: 1}) }}">Publier</a>
+
+                                {% else %}
+                                    <a href="{{ path('publish_article', {id: article.id, action: 0}) }}">Retirer</a>
+                                    {% endif %}
+                                 </div>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

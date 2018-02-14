@@ -138,4 +138,8 @@ class Menu
     {
         return $this->children;
     }
+    public function __toString()
+    {
+        return $this->title;
+    }
 }

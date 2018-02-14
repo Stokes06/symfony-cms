@@ -39,4 +39,21 @@ class MenuService{
         $this->em->remove($menu);
         $this->em->flush();
     }
+
+    public function getBiggestMenu()
+    {
+        return $this->em
+            ->createQuery("select m from AppBundle\Entity\Menu m 
+               where m.parent is null ")
+            ->getResult();
+    }
+
+    public function getMenuChildren($idMenu)
+    {
+        return $this->em->createQuery("select child from AppBundle\Entity\Menu child
+                    join child.parent p
+                    where p.id = ?1 and p.id != child.id")
+                    ->setParameter(1, $idMenu)
+                    ->execute();
+    }
 }

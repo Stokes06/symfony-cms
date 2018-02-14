@@ -12,6 +12,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Article;
 use AppBundle\Form\ArticleType;
 use AppBundle\Service\ArticleService;
+use AppBundle\Service\MenuService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -57,16 +58,19 @@ class ArticleController extends Controller
 
     /**
      * Afficher tous les articles
+     * @param Session $session
+     * @param MenuService $menuService
      * @param ArticleService $articleService
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function getAllArticlesAction(Session $session, ArticleService $articleService)
+    public function getAllArticlesAction(Session $session, MenuService $menuService, ArticleService $articleService)
     {
         $lastArticleSeen = $session->get("last_article");
+        $menus = $menuService->getBiggestMenu();
         /*   $loger =  $this->container->get('logger');
            $loger->info("look, i want every articles !");*/
         $articles = $articleService->getPublishedArticles();
-        return $this->render('@App/User/all_articles.html.twig', ["articles" => $articles, "lastArticleSeen" => $lastArticleSeen]);
+        return $this->render('@App/User/all_articles.html.twig', ["articles" => $articles, "lastArticleSeen" => $lastArticleSeen, "menus"=>$menus]);
     }
 
     /**
@@ -75,11 +79,11 @@ class ArticleController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getArticleAction(Session $session, ArticleService $articleService, $id)
+    public function getArticleAction(Session $session, MenuService $menuService, ArticleService $articleService, $id)
     {
         /** @var Article $article */
         $article = $articleService->getById($id);
-
+        $menus = $menuService->getBiggestMenu();
         if($this->isGranted("ROLE_EDITOR"))
             return $this->render('@App/Admin/Article/article.html.twig', ["article" => $article]);
 
@@ -87,7 +91,23 @@ class ArticleController extends Controller
             return $this->render("@App/error404.html.twig");
         $session->set("last_article", $article);
 
-        return $this->render('@App/User/article.html.twig', ["article" => $article]);
+        return $this->render('@App/User/article.html.twig', ["article" => $article, "menus"=>$menus]);
+    }
+
+    /**
+     * @param MenuService $menuService
+     * @param ArticleService $articleService
+     * @param $id
+     * @return Response
+     */
+    public function getArticlesByMenuAction(MenuService $menuService, ArticleService $articleService, $id){
+        $menu = $menuService->getById($id);
+        $menus = $menuService->getBiggestMenu();
+        $menuChildren = $menuService->getMenuChildren($id);
+        $articles = $articleService->getPublishedArticlesByMenuId($id);
+
+        return $this->render('@App/User/articlesByMenu.html.twig', ["menu"=>$menu, "menus"=>$menus, "menuChildren"=>$menuChildren, "articles"=>$articles]);
+
     }
 
     /**
@@ -127,6 +147,10 @@ class ArticleController extends Controller
                 }
 
                 $article->setImage($fileName);
+                if(!$id)
+                    $article->setAuthor($this->getUser());
+                else
+                    $article->setEditor($this->getUser());
                 $articleService->create($article);
                 $articleName = $article->getTitle();
                 //Ajoute un flash qui sera reçu par la vue
@@ -135,26 +159,28 @@ class ArticleController extends Controller
             }
         }
 
-        return $this->render('@App/Admin/Article/new_article.html.twig', ["form" => $form->createView(), "article"=>$article]);
+        return $this->render('@App/Admin/Article/new_article.html.twig', ["form" => $form->createView(), "article"=>$article, "image"=>$fileName]);
     }
 
     /**
      * Suppression d'un article
-     * @param Filesystem $fs
+     * @param ArticleService $articleService
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @internal param Filesystem $fs
      */
-    public function deleteArticleAction(FileSystem $fs, $id)
+    public function deleteArticleAction(ArticleService $articleService, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $article = $em->getRepository("AppBundle:Article")->find($id);
-        $fileName = $article->getImage();
-        if($fs->exists($this->getParameter('image_directory')."/".$fileName))
-            $fs->remove($this->getParameter('image_directory')."/".$fileName);
-        $em->remove($article);
-        $em->flush();
+        $articleService->removeArticleById($id);
         $this->addFlash("delete", "article supprimé");
-        return $this->redirectToRoute("all_articles");
+        return $this->redirectToRoute("handle_articles");
+    }
+
+   public function publishArticleAction(ArticleService $articleService, $id, $action){
+        $article = $articleService->getById($id);
+        $article->setPublished($action==1);
+        $articleService->create($article);
+        return $this->redirectToRoute("handle_articles");
     }
 
     /**
@@ -166,4 +192,5 @@ class ArticleController extends Controller
         // uniqid(), which is based on timestamps
         return md5(uniqid());
     }
+
 }

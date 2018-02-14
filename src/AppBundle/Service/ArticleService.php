@@ -7,15 +7,22 @@ use AppBundle\Entity\Menu;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ArticleService
 {
 
     protected $em;
+    private $container;
+    private $fs;
 
-    public function __construct(EntityManagerInterface $em)
+
+    public function __construct(EntityManagerInterface $em, ContainerInterface $container, Filesystem $fs)
     {
         $this->em = $em;
+        $this->container = $container;
+        $this->fs = $fs;
     }
 
     /**
@@ -45,5 +52,15 @@ class ArticleService
         $this->em->persist($article);
         $this->em->flush();
         //Non symétrique
+    }
+
+    public function removeArticleById($id)
+    {
+        $article = $this->em->getRepository("AppBundle:Article")->find($id);
+        $fileName = $article->getImage();
+        if($this->fs->exists($this->container->getParameter('image_directory')."/".$fileName))
+            $this->fs->remove($this->container->getParameter('image_directory')."/".$fileName);
+        $this->em->remove($article);
+        $this->em->flush();
     }
 }

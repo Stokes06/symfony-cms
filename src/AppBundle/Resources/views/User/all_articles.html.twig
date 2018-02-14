@@ -1,12 +1,12 @@
 {% extends '@App/User/layout.html.twig' %}
 {% block body %}
-    <div class="container">
         <div class="row">
+            <h1 class="text-center">Dernières actualités</h1>
             {% for article in articles %}
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="thumbnail">
-                        <a href="{{ path('one_article', {id: article.id, menu: article.menu.id, slug: article.content|cut(25)}) }}">
-                            <img src="{{ image_dir ~ article.image }}" alt="{{ article.id }}" style="width:100%">
+                        <a href="{{ path('one_article', {id: article.id, menu: article.menu.title|nice_url, slug: article.content|cut(25)|nice_url}) }}">
+                            <img class="img-responsive" src="{{ image_dir ~ article.image }}" alt="{{ article.id }}" style="width:100%">
                             <div class="caption">
                                 <h4>{{article.title}}</h4>
                                 <p>{{ article.content|cut(30) }}</p>
@@ -19,9 +19,8 @@
         <div class="row" style="margin-top: 50px;">
             {% if lastArticleSeen is not null %}
                 Dernier article vu: <br>
-                <a href="{{ path('one_article', {id: lastArticleSeen.id, menu: lastArticleSeen.menu.id, slug: lastArticleSeen.content|cut(15)}) }}"> {{ lastArticleSeen.title |cut(30) }}</a>
+                <a href="{{ path('one_article', {id: lastArticleSeen.id, menu: lastArticleSeen.menu.id, slug: lastArticleSeen.content|cut(35)}) }}"> {{ lastArticleSeen.title |cut(30) }}</a>
             {% endif %}
         </div>
-    </div>
 
 {% endblock %}

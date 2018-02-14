@@ -1,11 +1,13 @@
 <?php
 namespace AppBundle\Entity;
+use AppBundle\Service\TimestampableEntityMysql;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
  */
 class Article{
+    use TimestampableEntityMysql;
     /**
      * @var int $id
      * @ORM\Id()
@@ -19,6 +21,17 @@ class Article{
      */
     protected $title;
 
+    /**
+     * @var User $editor
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    protected $editor;
+
+    /**
+     * @var User $author
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    protected $author;
     /**
      * @var  string $content
      * @ORM\Column(type="text", nullable=true)
@@ -36,7 +49,7 @@ class Article{
     protected $publishedAt;
     /**
      * @var Menu $menu
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Menu", cascade={"persist"}, fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Menu", fetch="EAGER")
      */
     protected $menu;
     /**
@@ -48,7 +61,7 @@ class Article{
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Article")
      */
-    protected $articles;
+    protected $articles = [];
     /**
      * Article constructor.
      * @param string $title
@@ -63,6 +76,7 @@ class Article{
         $this->publishedAt = $publishedAt;
         $this->menu = $menu;
         $this->setPublished(false);
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -204,7 +218,7 @@ class Article{
      *
      * @return Article
      */
-    public function setMenu(\AppBundle\Entity\Menu $menu = null)
+    public function setMenu(Menu $menu = null)
     {
         $this->menu = $menu;
 
@@ -219,5 +233,109 @@ class Article{
     public function getMenu()
     {
         return $this->menu;
+    }
+
+    /**
+     * Add article
+     *
+     * @param \AppBundle\Entity\Article $article
+     *
+     * @return Article
+     */
+    public function addArticle(Article $article)
+    {
+        $this->articles[] = $article;
+
+        return $this;
+    }
+
+    /**
+     * Remove article
+     *
+     * @param \AppBundle\Entity\Article $article
+     */
+    public function removeArticle(Article $article)
+    {
+        $this->articles->removeElement($article);
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function getArticles()
+    {
+        return $this->articles->toArray();
+    }
+
+    /**
+     * Set author
+     *
+     * @param \AppBundle\Entity\User $author
+     *
+     * @return Article
+     */
+    public function setAuthor(\AppBundle\Entity\User $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Add editor
+     *
+     * @param \AppBundle\Entity\User $editor
+     *
+     * @return Article
+     */
+    public function addEditor(\AppBundle\Entity\User $editor)
+    {
+        $this->editor[] = $editor;
+
+        return $this;
+    }
+
+    /**
+     * Remove editor
+     *
+     * @param \AppBundle\Entity\User $editor
+     */
+    public function removeEditor(\AppBundle\Entity\User $editor)
+    {
+        $this->editor->removeElement($editor);
+    }
+
+    /**
+     * Get editor
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEditor()
+    {
+        return $this->editor;
+    }
+
+    /**
+     * Set editor
+     *
+     * @param \AppBundle\Entity\User $editor
+     *
+     * @return Article
+     */
+    public function setEditor(\AppBundle\Entity\User $editor = null)
+    {
+        $this->editor = $editor;
+
+        return $this;
     }
 }

@@ -4,6 +4,8 @@
     <meta charset="UTF-8"/>
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('bundles/app/bootstrap/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/app/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/app/css/style_admin.css') }}">
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
@@ -20,7 +22,7 @@
     </div>
 </div>
 {% block javascripts %}
-    <script src="{{ asset('bundles/app/jquery/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/jquery/jquery-3.3.1.js') }}"></script>
     <script src="{{ asset('bundles/app/bootstrap/js/bootstrap.js') }}"></script>
 {% endblock %}
 </body>

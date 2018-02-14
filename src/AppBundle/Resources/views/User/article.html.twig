@@ -11,6 +11,22 @@
                     <div>
                         {{ 'publié le ' ~ article.publishedAt.format("d-m-Y")~' à '~ article.publishedAt.format("h:i") }}
                     </div>
+                    {% if article.author is not null %}
+                        <div>
+                            {{ 'créé par '~article.author.username }}
+                            {% if article.createdAt %}
+                                {{ ' le '~article.createdAt }}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {% if article.editor is not null %}
+                        <div>
+                            {{ 'édité par '~article.editor.username }}
+                            {% if article.updatedAt %}
+                                {{ ' le '~article.updatedAt }}
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="col-xs-8">
                     {{ article.content|markdown }}
@@ -24,7 +40,7 @@
             {% for articleassocie in article.articles %}
                 <div class="row">
                     <div style="margin-bottom: 20px;" class="col-xs-6 col-xs-offset-3">
-                        <a href="{{ path('one_article', {id:articleassocie.id,menu:articleassocie.menu.title, slug: '_'~articleassocie.title}) }}">
+                        <a href="{{ path('one_article', {id:articleassocie.id,menu:articleassocie.menu.title|nice_url, slug: '_'~articleassocie.title|nice_url}) }}">
                             {{ articleassocie.title }}
                         </a>
                     </div>

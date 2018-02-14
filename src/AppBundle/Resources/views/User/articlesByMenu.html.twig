@@ -1,0 +1,38 @@
+{% extends '@App/User/layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-6">
+            <ul class="breadcrumb">
+                {% if menu is not null %}
+                    {{ filAriane(menu) }}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div>
+        <ul class="nav nav-pills">
+            {% for m in menuChildren  %}
+                <li><a href="{{ path('articles_by_menu', {id: m.id, title: m.title}) }}">{{ m.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row">
+        <h1 class="text-center">Article associés à {{ menu.title }}</h1>
+        {% for article in articles %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="thumbnail">
+                    <a href="{{ path('one_article', {id: article.id, menu: article.menu.title|nice_url, slug: article.content|cut(25)|nice_url}) }}">
+                        <img class="img-responsive" src="{{ image_dir ~ article.image }}" alt="{{ article.id }}" style="width:100%">
+                        <div class="caption">
+                            <h4>{{article.title}}</h4>
+                            <p>{{ article.content|cut(30) }}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
